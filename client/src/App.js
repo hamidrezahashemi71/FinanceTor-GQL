@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Contact from "./pages/Contact";
 
 import MainLayout from "./layout/MainLayout";
+import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
 import Tags from "./pages/Tags";
 import CreateExpense from "./pages/CreateExpense";
@@ -25,6 +26,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
         </Route>
         <Route path='/dashboard' element={<MainLayout />}>
+          <Route path='/dashboard/' element={<Dashboard />} />
           <Route path='/dashboard/expenses' element={<Expenses />} />
           <Route path='/dashboard/tags' element={<Tags />} />
           <Route path='/dashboard/createxpense' element={<CreateExpense />} />

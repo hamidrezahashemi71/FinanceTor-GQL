@@ -142,28 +142,28 @@ const Navbar = () => {
           <li>
             <Link
               to={"/dashboard"}
-              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>
+              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100'>
               Dashboard
             </Link>
           </li>
           <li>
             <Link
               to={"/dashboard/editprofile"}
-              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>
+              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100'>
               Profile
             </Link>
           </li>
           <li>
             <Link
               to={"/dashboard/expenses"}
-              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>
+              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100'>
               Expenses
             </Link>
           </li>
           <li>
             <Link
               to={"#"}
-              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>
+              className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100'>
               Sign out
             </Link>
           </li>

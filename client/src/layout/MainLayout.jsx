@@ -4,11 +4,13 @@ import Footer from "../components/Footer";
 
 const MainLayout = () => {
   return (
-    <>
-      <Sidebar />
-      <Outlet />
+    <div className='flex flex-col h-screen justify-between'>
+      <div className='flex gap-3'>
+        <Sidebar />
+        <Outlet />
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
