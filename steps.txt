@@ -1,0 +1,38 @@
+server: 
+	git clone https://github.com/thewhiterabbit1994/financetor
+	npm install
+	npm run prod
+	[from next time]: npm start
+
+client: 
+	============================== installing boiler packages
+	npx create-react-app .
+	npm install -D tailwindcss
+	npx tailwindcss init
+
+	/** @type {import('tailwindcss').Config} */
+	module.exports = {
+  		content: ["./src/**/*.{html,js}"],
+  		theme: {
+    		extend: {},
+  		},
+  		plugins: [],
+	}
+
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	npm i react-router-dom
+
+	@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;900&display=swap');
+
+	font-family: 'Work Sans', sans-serif;
+
+	npm i react-icons
+	npm i @apollo/client
+	npm i graphql
+	
+	copy apoll-client.js & config folder
+
+	============================== components, pages and routes
