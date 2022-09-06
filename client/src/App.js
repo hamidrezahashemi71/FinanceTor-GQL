@@ -24,6 +24,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='*' element={<NotFound />} />
         </Route>
         <Route path='/dashboard' element={<MainLayout />}>
           <Route path='/dashboard/' element={<Dashboard />} />
@@ -33,7 +34,6 @@ function App() {
           <Route path='/dashboard/createtag' element={<CreateTag />} />
           <Route path='/dashboard/editprofile' element={<EditProfile />} />
         </Route>
-        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

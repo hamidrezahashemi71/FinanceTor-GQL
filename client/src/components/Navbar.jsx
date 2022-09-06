@@ -70,12 +70,12 @@ const Navbar = () => {
                   style={({isActive}) =>
                     isActive
                       ? {
-                          color: "blue",
+                          color: "purple",
                         }
                       : {color: "black"}
                   }
                   to={"/"}
-                  className='block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100 rounded md:bg-transparent md:hover:text-blue-700 md:p-0 '
+                  className='block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-100 rounded md:bg-transparent md:hover:text-purple-700 md:p-0 '
                   aria-current='page'>
                   Home
                 </NavLink>
@@ -85,12 +85,12 @@ const Navbar = () => {
                   style={({isActive}) =>
                     isActive
                       ? {
-                          color: "blue",
+                          color: "purple",
                         }
                       : {color: "black"}
                   }
                   to={"/contact"}
-                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 '>
+                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 '>
                   Contact
                 </NavLink>
               </li>
@@ -99,12 +99,12 @@ const Navbar = () => {
                   style={({isActive}) =>
                     isActive
                       ? {
-                          color: "blue",
+                          color: "purple",
                         }
                       : {color: "black"}
                   }
                   to={"/login"}
-                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 '>
+                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 '>
                   Login
                 </NavLink>
               </li>
@@ -113,7 +113,7 @@ const Navbar = () => {
                   style={({isActive}) =>
                     isActive
                       ? {
-                          color: "blue",
+                          color: "purple",
                         }
                       : {color: "black"}
                   }
