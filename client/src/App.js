@@ -24,8 +24,8 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='*' element={<NotFound />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
         <Route path='/dashboard' element={<MainLayout />}>
           <Route path='/dashboard/' element={<Dashboard />} />
           <Route path='/dashboard/expenses' element={<Expenses />} />

@@ -129,7 +129,7 @@ const Navbar = () => {
       <div
         className={
           userMenu
-            ? "absolute right-5 z-50 my-4 w-fit text-base bg-purple-100 rounded divide-y divide-gray-100 shadow"
+            ? "absolute right-5 top-12 z-50 my-4 w-fit text-base bg-purple-100 rounded divide-y divide-gray-100 shadow"
             : "hidden z-50 my-4 text-base bg-purple-100 rounded divide-y divide-gray-100 shadow"
         }
         id='user-dropdown'>
