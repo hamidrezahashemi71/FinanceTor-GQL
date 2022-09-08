@@ -43,7 +43,7 @@ const Signup = () => {
       cookie.set("ut", x.data.signup.token, {path: "/"});
       // window.location.assign("/login");
       nav("/login");
-      console.log(x);
+      // console.log(x);
     } catch (error) {
       if (error.message === "this username already exists")
         return toast.warn("This Username already exists!");

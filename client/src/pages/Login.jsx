@@ -35,7 +35,7 @@ const Login = () => {
       });
       cookie.set("ut", x.data.login.token, {path: "/"});
       nav("/dashboard");
-      console.log(x);
+      // console.log(x);
     } catch (error) {
       if (error.message === "bad request")
         return toast.warn("This User Name does not exist!");
