@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useMutation, gql} from "@apollo/client";
 import {useState} from "react";
 import {toast} from "react-toastify";
@@ -11,7 +11,6 @@ const Login = () => {
   });
 
   const cookie = new Cookies();
-  const nav = useNavigate();
 
   const LOGIN = gql`
     mutation Mutation($username: String!, $password: String!) {
@@ -34,7 +33,7 @@ const Login = () => {
         },
       });
       cookie.set("ut", x.data.login.token, {path: "/"});
-      nav("/dashboard");
+      window.location.assign("/dashboard");
       // console.log(x);
     } catch (error) {
       if (error.message === "bad request")

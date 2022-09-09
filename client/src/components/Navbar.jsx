@@ -1,10 +1,34 @@
 import {Link, NavLink} from "react-router-dom";
 import * as GiIcons from "react-icons/gi";
-import {useState} from "react";
+import {useState, useContext, useEffect} from "react";
+import {AppContext} from "../context/context";
+import LogoutModal from "./LogoutModal";
 
 const Navbar = () => {
   const [userMenu, setUserMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const {data, logout, loading} = useContext(AppContext);
+  const [thisUserInfo, setThisUserInfo] = useState({
+    name: "",
+    profilePic: "",
+    username: "",
+  });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  useEffect(() => {
+    if (data)
+      setThisUserInfo({
+        ...thisUserInfo,
+        name: data.me.name,
+        profilePic: data.me.img,
+        username: data.me.username,
+      });
+  }, [loading]);
 
   const handleUserMenu = () => {
     setUserMenu(!userMenu);
@@ -13,6 +37,8 @@ const Navbar = () => {
   const handleMobileMenu = () => {
     setMobileMenu(!mobileMenu);
   };
+
+  // console.log(thisUserInfo);
 
   return (
     <>
@@ -29,20 +55,33 @@ const Navbar = () => {
             </span>
           </Link>
           <div className='flex items-center gap-4 md:order-2'>
-            <button
-              onClick={handleUserMenu}
-              type='button'
-              className='flex mr-5 text-sm bg-gray-200 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300'
-              id='user-menu-button'
-              aria-expanded='false'
-              data-dropdown-toggle='user-dropdown'
-              data-dropdown-placement='bottom'>
-              <img
-                className='w-12 h-12 rounded-full'
-                src={"/assets/images/user.png"}
-                alt='user photo'
-              />
-            </button>
+            {data ? (
+              <div className='flex flex-col items-center justify-center gap-1'>
+                <button
+                  onClick={handleUserMenu}
+                  type='button'
+                  className='flex justify-center mr-5 text-sm bg-gray-200 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300'
+                  id='user-menu-button'
+                  aria-expanded='false'
+                  data-dropdown-toggle='user-dropdown'
+                  data-dropdown-placement='bottom'>
+                  <img
+                    className='w-12 h-12 rounded-full'
+                    src={
+                      thisUserInfo.profilePic
+                        ? `http://localhost:80/${data.me.img}`
+                        : "/assets/images/user.png"
+                    }
+                    alt='user photo'
+                  />
+                </button>
+                <p className='text-purple-900 text-xs font-light'>
+                  Welcome {thisUserInfo.username}
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
 
             <button
               data-collapse-toggle='mobile-menu-2'
@@ -94,34 +133,40 @@ const Navbar = () => {
                   Contact
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  style={({isActive}) =>
-                    isActive
-                      ? {
-                          color: "purple",
-                        }
-                      : {color: "black"}
-                  }
-                  to={"/login"}
-                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 '>
-                  Login
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  style={({isActive}) =>
-                    isActive
-                      ? {
-                          color: "purple",
-                        }
-                      : {color: "black"}
-                  }
-                  to={"/signup"}
-                  className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 '>
-                  Signup
-                </NavLink>
-              </li>
+              {data ? (
+                ""
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      style={({isActive}) =>
+                        isActive
+                          ? {
+                              color: "purple",
+                            }
+                          : {color: "black"}
+                      }
+                      to={"/login"}
+                      className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 '>
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      style={({isActive}) =>
+                        isActive
+                          ? {
+                              color: "purple",
+                            }
+                          : {color: "black"}
+                      }
+                      to={"/signup"}
+                      className='block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 '>
+                      Signup
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
@@ -135,7 +180,9 @@ const Navbar = () => {
         id='user-dropdown'>
         <div className='py-3 px-4'>
           <span className='block text-sm font-semibold text-gray-900'>
-            Bonnie Green
+            {thisUserInfo.name.length > 10
+              ? `${thisUserInfo.name.slice(0, 10)}...`
+              : thisUserInfo.name}
           </span>
         </div>
         <ul className='py-1' aria-labelledby='user-menu-button'>
@@ -161,14 +208,15 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              to={"#"}
+            <button
+              onClick={handleModal}
               className='block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100'>
               Sign out
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
+      {showModal ? <LogoutModal handleModal={handleModal} /> : ""}
     </>
   );
 };

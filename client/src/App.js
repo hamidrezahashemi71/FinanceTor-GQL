@@ -15,6 +15,8 @@ import CreateTag from "./pages/CreateTag";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 
+import LogoutModal from "./components/LogoutModal";
+
 function App() {
   return (
     <Router>
@@ -24,6 +26,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/modal' element={<LogoutModal />} />
         </Route>
         <Route path='*' element={<NotFound />} />
         <Route path='/dashboard' element={<MainLayout />}>

@@ -57,7 +57,9 @@ const Signup = () => {
           <h1 className='mb-8 text-4xl font-extrabold text-center'>Sign up</h1>
           <input
             value={regInfo.name}
-            onChange={(e) => setRegInfo({...regInfo, name: e.target.value})}
+            onChange={(e) =>
+              setRegInfo({...regInfo, name: e.target.value.trim()})
+            }
             type='text'
             className='block border-[1px] border-gray-200 w-full p-3 rounded mb-4'
             name='fullname'
@@ -66,7 +68,9 @@ const Signup = () => {
 
           <input
             value={regInfo.username}
-            onChange={(e) => setRegInfo({...regInfo, username: e.target.value})}
+            onChange={(e) =>
+              setRegInfo({...regInfo, username: e.target.value.trim()})
+            }
             type='text'
             className={"block border border-gray-200 w-full p-3 rounded mb-4"}
             name='name'
@@ -75,7 +79,9 @@ const Signup = () => {
 
           <input
             value={regInfo.password}
-            onChange={(e) => setRegInfo({...regInfo, password: e.target.value})}
+            onChange={(e) =>
+              setRegInfo({...regInfo, password: e.target.value.trim()})
+            }
             type='password'
             className='block border border-gray-200 w-full p-3 rounded mb-4'
             name='password'
@@ -84,7 +90,7 @@ const Signup = () => {
           <input
             value={regInfo.confirmPassword}
             onChange={(e) =>
-              setRegInfo({...regInfo, confirmPassword: e.target.value})
+              setRegInfo({...regInfo, confirmPassword: e.target.value.trim()})
             }
             type='password'
             className='block border border-gray-200 w-full p-3 rounded mb-4'

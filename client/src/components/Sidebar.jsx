@@ -1,10 +1,28 @@
 import {Link} from "react-router-dom";
 import * as MdIcons from "react-icons/md";
 import * as FaIcons from "react-icons/fa";
-import {useState} from "react";
+import {useState, useEffect, useContext} from "react";
+import {AppContext} from "../context/context";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(true);
+  const {data, logout, refetch} = useContext(AppContext);
+  const [thisUserInfo, setThisUserInfo] = useState({
+    name: "",
+    profilePic: "",
+    username: "",
+  });
+
+  useEffect(() => {
+    if (data)
+      setThisUserInfo({
+        ...thisUserInfo,
+        name: data.me.name,
+        profilePic: data.me.img,
+        username: data.me.username,
+      });
+    refetch();
+  }, [data]);
 
   const handleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -27,11 +45,17 @@ const Sidebar = () => {
         <div className='overflow-y-auto py-4 px-3 bg-purple-400 rounded'>
           <img
             className='w-12 h-12 rounded-full'
-            src={"/assets/images/user.png"}
+            src={
+              thisUserInfo.profilePic
+                ? `http://localhost:80/${data.me.img}`
+                : "/assets/images/user.png"
+            }
             alt='user photo'
           />
           <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>
-            Bonnie Green
+            {thisUserInfo.name.length > 10
+              ? `${thisUserInfo.name.slice(0, 10)}...`
+              : thisUserInfo.name}
           </span>
           <ul className='space-y-2'>
             <li>
@@ -48,6 +72,16 @@ const Sidebar = () => {
                 className='flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
                 <FaIcons.FaHome />
                 <span className='flex-1 ml-3 whitespace-nowrap'>Home</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/dashboard/editprofile"}
+                className='flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
+                <FaIcons.FaEdit />
+                <span className='flex-1 ml-3 whitespace-nowrap'>
+                  Edit Profile
+                </span>
               </Link>
             </li>
             <li>
@@ -90,12 +124,12 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to={"#"}
+              <button
+                onClick={logout}
                 className='flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
                 <FaIcons.FaSignOutAlt />
                 <span className='flex-1 ml-3 whitespace-nowrap'>Sign Out</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
