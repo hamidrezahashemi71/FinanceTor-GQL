@@ -1,8 +1,9 @@
 import {Link} from "react-router-dom";
 import {useMutation, gql} from "@apollo/client";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import Cookies from "universal-cookie";
+import Loading from "../components/Loading";
 
 const Login = () => {
   const [logInfo, setLogInfo] = useState({
@@ -11,6 +12,13 @@ const Login = () => {
   });
 
   const cookie = new Cookies();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (cookie.get("ut")) return window.location.assign("/dashboard");
+    setLoading(false);
+  }, []);
 
   const LOGIN = gql`
     mutation Mutation($username: String!, $password: String!) {
@@ -43,6 +51,7 @@ const Login = () => {
     }
   };
 
+  if (loading) return <Loading />;
   return (
     <div className='min-h-screen flex flex-col'>
       <div className='container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2'>
