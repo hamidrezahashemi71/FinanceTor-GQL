@@ -3,6 +3,7 @@ import * as MdIcons from "react-icons/md";
 import * as FaIcons from "react-icons/fa";
 import {useState, useEffect, useContext} from "react";
 import {AppContext} from "../context/context";
+import LogoutModal from "./LogoutModal";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -12,6 +13,11 @@ const Sidebar = () => {
     profilePic: "",
     username: "",
   });
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModal = () => {
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     if (data)
@@ -52,7 +58,7 @@ const Sidebar = () => {
             }
             alt='user photo'
           />
-          <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>
+          <span className='self-center text-md mb-4 font-semibold whitespace-nowrap dark:text-white'>
             {thisUserInfo.name.length > 10
               ? `${thisUserInfo.name.slice(0, 10)}...`
               : thisUserInfo.name}
@@ -125,7 +131,7 @@ const Sidebar = () => {
             </li>
             <li>
               <button
-                onClick={logout}
+                onClick={handleModal}
                 className='flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'>
                 <FaIcons.FaSignOutAlt />
                 <span className='flex-1 ml-3 whitespace-nowrap'>Sign Out</span>
@@ -134,6 +140,7 @@ const Sidebar = () => {
           </ul>
         </div>
       </aside>
+      {showModal ? <LogoutModal handleModal={handleModal} /> : ""}
     </>
   );
 };

@@ -51,7 +51,8 @@ const EditProfile = () => {
   };
 
   return (
-    <div className='flex items-center justify-center w-full h-full'>
+    <div className='flex flex-col items-center justify-center w-full h-full'>
+      <p className='text-black font-bold text-3xl my-4'>Edit Profile</p>
       <div className='flex flex-col items-center justify-center w-[50%] border-[1px] border-black rounded-md h-auto p-2'>
         <img
           className='w-20 h-20 rounded-full border-[1px] border-purple-900 cursor-pointer hover:bg-purple-100 transition-all'

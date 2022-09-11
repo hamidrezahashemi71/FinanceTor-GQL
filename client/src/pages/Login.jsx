@@ -7,8 +7,14 @@ import Loading from "../components/Loading";
 
 const Login = () => {
   const [logInfo, setLogInfo] = useState({
-    username: "",
-    password: "",
+    username: {
+      value: "",
+      msg: "",
+    },
+    password: {
+      value: "",
+      msg: "",
+    },
   });
 
   const cookie = new Cookies();
@@ -31,13 +37,21 @@ const Login = () => {
   const [Login] = useMutation(LOGIN);
 
   const login = async () => {
-    if (!logInfo.username) return toast.error("Enter User Name!");
-    if (!logInfo.password) return toast.error("Enter Password!");
+    // if (!logInfo.username) return toast.error("Enter User Name!");
+    // if (!logInfo.password) return toast.error("Enter Password!");
+    const values = Object.values(logInfo);
+    const ifEmpty = values.some((item) => !item.value);
+
+    if (ifEmpty)
+      values.forEach((item) => {
+        if (!item.value) item.msg = "This field cannot be empty";
+      });
+
     try {
       const x = await Login({
         variables: {
-          username: logInfo.username,
-          password: logInfo.password,
+          username: logInfo.username.value,
+          password: logInfo.password.value,
         },
       });
       cookie.set("ut", x.data.login.token, {path: "/"});
@@ -58,26 +72,41 @@ const Login = () => {
         <div className='bg-purple-300 px-6 py-8 rounded shadow-md text-black w-full'>
           <h1 className='mb-8 text-4xl font-extrabold text-center'>Login</h1>
           <input
-            value={logInfo.username}
+            value={logInfo.username.value}
             onChange={(e) =>
-              setLogInfo({...logInfo, username: e.target.value.trim()})
+              setLogInfo({
+                ...logInfo,
+                username: {value: e.target.value.trimStart(), msg: ""},
+              })
             }
             type='text'
-            className='block border border-gray-200 w-full p-3 rounded mb-4'
+            className={`${
+              logInfo.username.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='name'
             placeholder='User Name'
           />
-
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {logInfo.username.msg}
+          </p>
           <input
-            value={logInfo.password}
+            value={logInfo.password.value}
             onChange={(e) =>
-              setLogInfo({...logInfo, password: e.target.value.trim()})
+              setLogInfo({
+                ...logInfo,
+                password: {value: e.target.value.trimStart(), msg: ""},
+              })
             }
             type='password'
-            className='block border border-gray-200 w-full p-3 rounded mb-4'
+            className={`${
+              logInfo.password.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='password'
             placeholder='Password'
           />
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {logInfo.password.msg}
+          </p>
           <button
             onClick={login}
             type='submit'

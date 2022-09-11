@@ -5,11 +5,30 @@ import {toast} from "react-toastify";
 import Cookies from "universal-cookie";
 
 const Signup = () => {
+  // const [regInfo, setRegInfo] = useState({
+  //   name: "",
+  //   username: "",
+  //   password: "",
+  //   confirmPassword: "",
+  // });
+
   const [regInfo, setRegInfo] = useState({
-    name: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
+    name: {
+      value: "",
+      msg: "",
+    },
+    username: {
+      value: "",
+      msg: "",
+    },
+    password: {
+      value: "",
+      msg: "",
+    },
+    confirmPassword: {
+      value: "",
+      msg: "",
+    },
   });
 
   const nav = useNavigate();
@@ -26,12 +45,22 @@ const Signup = () => {
 
   const [Signup] = useMutation(SIGNUP);
 
+  console.log(regInfo);
+
   const signup = async () => {
-    if (!regInfo.name) return toast.error("Enter Name!");
-    if (!regInfo.username) return toast.error("Enter User Name!");
-    if (!regInfo.password) return toast.error("Enter Password!");
-    if (regInfo.password !== regInfo.confirmPassword)
+    // if (!regInfo.name) return toast.error("Enter Name!");
+    // if (!regInfo.username) return toast.error("Enter User Name!");
+    // if (!regInfo.password) return toast.error("Enter Password!");
+    if (regInfo.password.value !== regInfo.confirmPassword.value)
       return toast.error("Passwords don't match!");
+    const values = Object.values(regInfo);
+    const ifEmpty = values.some((item) => !item.value);
+
+    if (ifEmpty)
+      values.forEach((item) => {
+        if (!item.value) item.msg = "This field cannot be empty";
+      });
+
     try {
       const x = await Signup({
         variables: {
@@ -56,48 +85,82 @@ const Signup = () => {
         <div className='bg-purple-300 px-6 py-8 rounded shadow-md text-black w-full'>
           <h1 className='mb-8 text-4xl font-extrabold text-center'>Sign up</h1>
           <input
-            value={regInfo.name}
+            value={regInfo.name.value}
             onChange={(e) =>
-              setRegInfo({...regInfo, name: e.target.value.trim()})
+              // setRegInfo({ ...regInfo, name: e.target.value.trim() })
+              setRegInfo({
+                ...regInfo,
+                name: {value: e.target.value.trimStart(), msg: ""},
+              })
             }
             type='text'
-            className='block border-[1px] border-gray-200 w-full p-3 rounded mb-4'
+            className={`${
+              regInfo.name.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='fullname'
             placeholder='Full Name'
           />
-
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {regInfo.name.msg}
+          </p>
           <input
-            value={regInfo.username}
+            value={regInfo.username.value}
             onChange={(e) =>
-              setRegInfo({...regInfo, username: e.target.value.trim()})
+              setRegInfo({
+                ...regInfo,
+                username: {value: e.target.value.trimStart(), msg: ""},
+              })
             }
             type='text'
-            className={"block border border-gray-200 w-full p-3 rounded mb-4"}
+            className={`${
+              regInfo.username.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='name'
             placeholder='User Name'
           />
-
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {regInfo.username.msg}
+          </p>
           <input
-            value={regInfo.password}
+            value={regInfo.password.value}
             onChange={(e) =>
-              setRegInfo({...regInfo, password: e.target.value.trim()})
+              setRegInfo({
+                ...regInfo,
+                password: {value: e.target.value.trimStart(), msg: ""},
+              })
             }
             type='password'
-            className='block border border-gray-200 w-full p-3 rounded mb-4'
+            className={`${
+              regInfo.password.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='password'
             placeholder='Password'
           />
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {regInfo.password.msg}
+          </p>
           <input
-            value={regInfo.confirmPassword}
+            value={regInfo.confirmPassword.value}
             onChange={(e) =>
-              setRegInfo({...regInfo, confirmPassword: e.target.value.trim()})
+              // setRegInfo({ ...regInfo, confirmPassword: e.target.value.trim() })
+              setRegInfo({
+                ...regInfo,
+                confirmPassword: {
+                  value: e.target.value.trimStart(),
+                  msg: "",
+                },
+              })
             }
             type='password'
-            className='block border border-gray-200 w-full p-3 rounded mb-4'
+            className={`${
+              regInfo.confirmPassword.msg ? "border-red-600" : "border-gray-200"
+            } border-[1px] block  w-full p-3 rounded outline-none`}
             name='confirm_password'
             placeholder='Confirm Password'
           />
-
+          <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
+            {regInfo.confirmPassword.msg}
+          </p>
           <button
             onClick={signup}
             type='submit'
