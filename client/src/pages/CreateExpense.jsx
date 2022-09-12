@@ -1,19 +1,27 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {useMutation, gql} from "@apollo/client";
+import {AppContext} from "../context/context";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const CreateExpense = () => {
+  const {data, refetch} = useContext(AppContext);
+  const myTags = data.me.myTags;
   const [expenseInfo, setExpenseInfo] = useState({
     amount: {
       value: "",
       msg: "",
     },
-    tags: {
+    tag: {
       value: "",
       msg: "",
     },
     geo: {
-      lat: "35.73825",
-      lon: "56.73825",
+      value: {
+        lat: "35.73825",
+        lon: "56.73825",
+      },
+      msg: "",
     },
     date: {
       value: "",
@@ -37,6 +45,8 @@ const CreateExpense = () => {
     },
   });
 
+  const nav = useNavigate();
+
   const CREATE_EXPENSE = gql`
     mutation Mutation($data: ExpenseInfo!) {
       create_expense(data: $data) {
@@ -48,16 +58,27 @@ const CreateExpense = () => {
   const [CreateExpense] = useMutation(CREATE_EXPENSE);
 
   const createExpense = async () => {
+    const values = Object.values(expenseInfo);
+    const ifEmpty = values.some((item) => !item.value);
+
+    if (ifEmpty)
+      return values.forEach((item) => {
+        if (!item.value) item.msg = "This field cannot be empty!";
+      });
+
     try {
-      const x = await CreateExpense({
+      await CreateExpense({
         variables: {
-          date: {
-            amount: expenseInfo.amount.value,
-            tags: expenseInfo.tags.value,
-            geo: expenseInfo.geo.value,
+          data: {
+            amount: parseFloat(expenseInfo.amount.value),
+            geo: {
+              lat: parseFloat(expenseInfo.geo.value.lat),
+              lon: parseFloat(expenseInfo.geo.value.lon),
+            },
+            tags: [expenseInfo.tag.value],
             date: expenseInfo.date.value,
             address: {
-              MunicipalityZone: expenseInfo.MunicipalityZone.value,
+              MunicipalityZone: parseFloat(expenseInfo.MunicipalityZone.value),
               Neighbourhood: expenseInfo.Neighbourhood.value,
               FormattedAddress: expenseInfo.FormattedAddress.value,
               Place: expenseInfo.Place.value,
@@ -65,15 +86,21 @@ const CreateExpense = () => {
           },
         },
       });
-      console.log(x);
-    } catch (error) {}
+      toast.success("Expenses created successfully!");
+      await refetch();
+      nav("/dashboard/expenses");
+    } catch (error) {
+      console.log(error.message);
+      toast.error("Error!");
+    }
   };
+  console.log(expenseInfo);
 
   return (
     <div className='flex flex-col items-center justify-center w-full h-full'>
-      <p className='text-black font-bold text-3xl my-4'>My Expenses</p>
+      <p className='text-black font-bold text-3xl my-4'>Create New Expense</p>
       <input
-        type='text'
+        type='number'
         className={`${
           expenseInfo.amount.msg ? "border-red-600" : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
@@ -89,29 +116,36 @@ const CreateExpense = () => {
       <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
         {expenseInfo.amount.msg}
       </p>
-      <input
-        type='text'
-        className={`${
-          expenseInfo.tags.msg ? "border-red-600" : "border-gray-200"
-        } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Tags'
-        value={expenseInfo.tags.value}
-        onChange={(e) =>
+
+      <select
+        onClick={(e) =>
           setExpenseInfo({
             ...expenseInfo,
-            tags: {value: e.target.value.trimStart(), msg: ""},
+            tag: {value: e.target.value, msg: ""},
           })
         }
-      />
+        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none'>
+        <option>Choose a tag</option>
+        {!myTags.length
+          ? "You have no tags! Create one first."
+          : myTags.map((myTag) => {
+              return (
+                <option key={myTag._id} value={myTag._id}>
+                  {myTag.name}
+                </option>
+              );
+            })}
+      </select>
+
       <p className='mb-4 p-0 text-red-600 text-xs font-semibold'>
-        {expenseInfo.tags.msg}
+        {expenseInfo.tag.msg}
       </p>
       <input
-        type='text'
+        type='date'
         className={`${
           expenseInfo.date.msg ? "border-red-600" : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Amount'
+        placeholder='Date'
         value={expenseInfo.date.value}
         onChange={(e) =>
           setExpenseInfo({
@@ -124,13 +158,13 @@ const CreateExpense = () => {
         {expenseInfo.date.msg}
       </p>
       <input
-        type='text'
+        type='number'
         className={`${
           expenseInfo.MunicipalityZone.msg
             ? "border-red-600"
             : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Amount'
+        placeholder='Municipality Zone'
         value={expenseInfo.MunicipalityZone.value}
         onChange={(e) =>
           setExpenseInfo({
@@ -147,7 +181,7 @@ const CreateExpense = () => {
         className={`${
           expenseInfo.Neighbourhood.msg ? "border-red-600" : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Amount'
+        placeholder='Neighbourhood'
         value={expenseInfo.Neighbourhood.value}
         onChange={(e) =>
           setExpenseInfo({
@@ -166,7 +200,7 @@ const CreateExpense = () => {
             ? "border-red-600"
             : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Amount'
+        placeholder='Formatted Address'
         value={expenseInfo.FormattedAddress.value}
         onChange={(e) =>
           setExpenseInfo({
@@ -183,7 +217,7 @@ const CreateExpense = () => {
         className={`${
           expenseInfo.Place.msg ? "border-red-600" : "border-gray-200"
         } border-[1px] block  w-full p-3 rounded outline-none`}
-        placeholder='Amount'
+        placeholder='Place'
         value={expenseInfo.Place.value}
         onChange={(e) =>
           setExpenseInfo({
@@ -197,7 +231,7 @@ const CreateExpense = () => {
       </p>
       <button
         onClick={createExpense}
-        className='w-[40%] flex items-center justify-center px-2 mt-3 border border-transparent text-xs leading-6 font-bold rounded-md text-white bg-purple-600 hover:bg-purple-900 focus:outline-none focus:border-purple-700 focus:shadow-outline-purple transition duration-150 ease-in-out'>
+        className='w-[40%] flex items-center justify-center px-2 my-3 border border-transparent text-xs leading-6 font-bold rounded-md text-white bg-purple-600 hover:bg-purple-900 focus:outline-none focus:border-purple-700 focus:shadow-outline-purple transition duration-150 ease-in-out'>
         Create Expense
       </button>
     </div>
