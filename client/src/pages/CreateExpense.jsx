@@ -91,10 +91,10 @@ const CreateExpense = () => {
       nav("/dashboard/expenses");
     } catch (error) {
       console.log(error.message);
-      toast.error("Error!");
+      toast.error("Error! You should create a tag first!");
     }
   };
-  console.log(expenseInfo);
+  // console.log(expenseInfo);
 
   return (
     <div className='flex flex-col items-center justify-center w-full h-full'>
@@ -124,7 +124,7 @@ const CreateExpense = () => {
             tag: {value: e.target.value, msg: ""},
           })
         }
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none'>
+        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 outline-none'>
         <option>Choose a tag</option>
         {!myTags.length
           ? "You have no tags! Create one first."

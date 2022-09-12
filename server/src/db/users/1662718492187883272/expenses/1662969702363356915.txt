@@ -1,0 +1,1 @@
+{"amount":111,"tags":["1662888465780937199"],"geo":{"lat":35.73825,"lon":56.73825},"address":{"MunicipalityZone":11,"Neighbourhood":"qqq","FormattedAddress":"qqq","Place":"qqq"},"date":"2022-09-17","_id":"1662969702363356915"}

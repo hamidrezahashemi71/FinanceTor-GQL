@@ -14,7 +14,13 @@ const Expenses = () => {
         <p>You have no expenses yet!</p>
       ) : (
         myExpenses.map((myExpense) => {
-          return <ExpenseCard myExpense={myExpense} refetch={refetch} />;
+          return (
+            <ExpenseCard
+              myExpense={myExpense}
+              refetch={refetch}
+              key={myExpense._id}
+            />
+          );
         })
       )}
     </div>

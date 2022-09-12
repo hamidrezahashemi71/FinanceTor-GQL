@@ -1,0 +1,1 @@
+{"amount":1000,"tags":["1662970500307895926"],"geo":{"lat":35.73825,"lon":56.73825},"address":{"MunicipalityZone":10,"Neighbourhood":"Saadi","FormattedAddress":"No 11","Place":"Hitchcock"},"date":"2022-09-11","_id":"1662970535087230667"}

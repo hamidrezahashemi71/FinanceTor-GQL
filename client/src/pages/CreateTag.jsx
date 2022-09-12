@@ -51,7 +51,7 @@ const CreateTag = () => {
           },
         },
       });
-      toast.success("Tag added successfully!");
+      toast.success("Tag created successfully!");
       await refetch();
       nav("/dashboard/tags");
     } catch (error) {
@@ -75,7 +75,7 @@ const CreateTag = () => {
           onChange={(e) =>
             setTagInfo({
               ...tagInfo,
-              name: {value: e.target.value.trimStart().capitalize(), msg: ""},
+              name: {value: e.target.value.trimStart(), msg: ""},
             })
           }
           placeholder='Tag Name'
